@@ -1,22 +1,39 @@
-from flask import Flask, render_template, redirect, url_for, request, session
-from models import db, User, Project, Interest, Comment
+from flask import Flask, render_template
+from models import db, User, Project
+from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_bcrypt import Bcrypt
+from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Change it later
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.secret_key = 'supersecretkey'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///collab_sphere.db'
 
 db.init_app(app)
 migrate = Migrate(app, db)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+
+
+from controllers.auth import auth_bp
+from controllers.project import project_bp
+from controllers.user import user_bp
+
+app.register_blueprint(project_bp)
+app.register_blueprint(auth_bp)
+app.register_blueprint(user_bp)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route('/')
-def home():
-    return "Welcome to collab-Sphere"
-    #projects = Project.query.all()
-    #return render_template('home.html', projects=projects)
+def index():
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)

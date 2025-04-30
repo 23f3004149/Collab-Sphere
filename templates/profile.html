@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm rounded">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h5 class="fw-bold text-dark">{{ user.username }}</h5>
+                                <p class="text-muted">{{ user.bio or "This user hasn't updated their bio yet." }}</p>
+                            </div>
+                        </div>
+                    
+                        <a href="{{ url_for('user.edit_profile') }}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row mt-4">
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm rounded">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold text-dark">Skills</h5>
+                        <a href="{{ url_for('user.edit_skills') }}" class="btn btn-outline-primary btn-sm">Manage Skills</a>
+                    </div>
+                    <div class="d-flex flex-wrap">
+                        {% if user.skills %}
+                            {% for skill in user.skills %}
+                                <span class="badge bg-dark text-white mb-1 me-2">
+                                    {{ skill.name }} - <strong>{{ skill.competency_level }}</strong>
+                                </span>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">No skills added yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

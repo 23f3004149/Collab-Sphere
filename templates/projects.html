@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+
+    <form method="get" class="mb-4">
+        <div class="row g-2 align-items-center justify-content-center">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control rounded-start" placeholder="🔍 Search for projects..." value="{{ search_query }}">
+                        <button type="submit" class="btn btn-dark rounded-end">Search</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <select name="skill_level" class="form-select">
+                    <option value="All" {% if difficulty == 'All' %}selected{% endif %}>All Levels</option>
+                    <option value="Beginner" {% if difficulty == 'Beginner' %}selected{% endif %}>Beginner</option>
+                    <option value="Intermediate" {% if difficulty == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                    <option value="Advanced" {% if difficulty == 'Advanced' %}selected{% endif %}>Advanced</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <select name="technology" class="form-select">
+                    <option value="All" {% if technology == 'All' %}selected{% endif %}>All Technologies</option>
+                    {% for skill in skills %}
+                        <option value="{{ skill.name }}" {% if technology == skill.name %}selected{% endif %}>
+                            {{ skill.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select name="sort" class="form-select">
+                    <option value="desc" {% if sort_by == 'desc' %}selected{% endif %}>Newest First</option>
+                    <option value="asc" {% if sort_by == 'asc' %}selected{% endif %}>Oldest First</option>
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-dark">Apply</button>
+            </div>
+
+            <div class="col-auto">
+                <a href="{{ url_for('project.project') }}" class="btn btn-outline-secondary">Clear Filters</a>
+            </div>
+        </div>
+    </form>
+
+    
+    <div class="row">
+        {% if projects %}
+            {% for project in projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description }}</p>
+                        <div class="mb-2">
+                            {% for skill in project.skills %}
+                            <span class="badge bg-dark text-white">{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="text-muted small mb-2">Difficulty: {{ project.difficulty }}</div>
+                        <div class="text-muted small">Created on: {{ project.created_at.strftime('%Y-%m-%d') }}</div>
+                        <a class="btn btn-outline-dark w-100 mt-3" href="{{ url_for('project.project_detail', project_id=project.id) }}">
+                            View Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <p>No projects found matching your criteria.</p>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-5 shadow-sm" style="width: 400px;">
+        <h3 class="text-center mb-4">Edit Your Skills</h3>
+
+        <form action="{{ url_for('user.edit_skills') }}" method="POST">
+            <div class="mb-3">
+                <label class="form-label fw-medium">Your Skills</label>
+                <select name="skills" class="form-select select2-multi" multiple required>
+                    {% for skill in all_skills %}
+                        <option value="{{ skill.id }}"
+                            {% if skill in user.skills %}
+                                selected
+                            {% endif %}
+                        >{{ skill.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100">Save Skills</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="{{ url_for('user.profile') }}" class="btn btn-link">← Back to Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

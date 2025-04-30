@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .hero-section {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+    .card {
+        border: 1px solid #dee2e6;
+        border-radius: 12px;
+        transition: all 0.3s ease-in-out;
+    }
+    .card:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        transform: translateY(-4px);
+    }
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.4em 0.7em;
+        border-radius: 20px;
+    }
+    .btn-lg {
+        border-radius: 10px;
+        font-weight: 500;
+    }
+    .icon-box i {
+        color: #212529;
+        transition: transform 0.3s;
+    }
+    .icon-box:hover i {
+        transform: scale(1.1);
+        color: #000;
+    }
+    @media (max-width: 767px) {
+        h1.display-4 {
+            font-size: 2rem;
+        }
+        .btn-lg {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<div class="hero-section text-center py-5">
+    <div class="container">
+        <h1 class="display-4 mb-3">Welcome to Collab-Sphere</h1>
+        <p class="lead mb-4">Connect with fellow students, share open-source project ideas, and find collaborators for your next big thing!</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{{ url_for('project.project') }}" class="btn btn-primary btn-lg px-4">
+                <i class="bi bi-search me-2"></i>Browse Projects
+            </a>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('project.create_project') }}" class="btn btn-outline-dark btn-lg px-4">
+                <i class="bi bi-plus-circle me-2"></i>Create Project
+            </a>
+            {% else %}
+            <a href="{{ url_for('auth.register') }}" class="btn btn-outline-dark btn-lg px-4">
+                <i class="bi bi-person-plus me-2"></i>Join Now
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row text-center mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="icon-box p-4">
+            <i class="bi bi-lightbulb-fill display-4 mb-3"></i>
+            <h4>Share Your Ideas</h4>
+            <p>Post your open-source project ideas and get feedback from the community.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="icon-box p-4">
+            <i class="bi bi-people-fill display-4 mb-3"></i>
+            <h4>Find Collaborators</h4>
+            <p>Connect with other students who have the skills your project needs.</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="icon-box p-4">
+            <i class="bi bi-laptop display-4 mb-3"></i>
+            <h4>Build Together</h4>
+            <p>Collaborate on exciting projects and enhance your portfolio.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">How It Works</h5>
+            </div>
+            <div class="card-body">
+                <ol class="mb-0 ps-3">
+                    <li class="mb-2">Create your profile and add your skills</li>
+                    <li class="mb-2">Browse projects or create your own</li>
+                    <li class="mb-2">Express interest in projects you'd like to join</li>
+                    <li class="mb-2">Collaborate through GitHub and discussion</li>
+                    <li>Build amazing things together!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Project Difficulty Levels</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <span class="badge bg-success me-2">Beginner</span>
+                    <span>Perfect for those just starting out</span>
+                </div>
+                <div class="mb-3">
+                    <span class="badge bg-warning text-dark me-2">Intermediate</span>
+                    <span>For those with some experience</span>
+                </div>
+                <div>
+                    <span class="badge bg-danger me-2">Advanced</span>
+                    <span>Challenging projects for experienced developers</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
