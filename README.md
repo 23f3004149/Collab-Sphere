@@ -3,6 +3,8 @@
 
 A platform for students to share open-source project ideas and collaborate with others.
 
+Demo video : https://youtu.be/xzgHPYj6GNo
+
 ## Features
 
 - User Authentication (login, register, logout)
